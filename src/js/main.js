@@ -5,18 +5,30 @@
  * Import your modules and initialize the app here.
  */
 
+const searchBtn = document.getElementById('search-input');
+let debounceTimer ;
+ searchBtn.addEventListener('input', function(){
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+     const searchTerm = document.getElementById("search-input").value
+  getRacipe(searchTerm)
+  },400);
+ })
+
+
 getRacipe()
 
 
-async function getRacipe(recipe = 'pizza') {
+async function getRacipe(recipe ="chicken") {
     const response = await fetch(
-        `https://forkify-api.jonas.io/api/v2/recipes?search=${recipe}`,
+        `https://nutriplan-api.vercel.app/api/meals/search?q=${recipe}&page=1&limit=25`,
     );
     const resDate = await response.json();
     console.log(resDate);
-    displayDate(resDate.data.recipes)
+    displayDate(resDate.results)
     
 }
+console.log(resDate)
 function displayDate(list){
     console.log("display", list);
     let htmlMarkUp ;
@@ -30,7 +42,7 @@ function displayDate(list){
               <div class="relative h-48 overflow-hidden">
                 <img
                   class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  src="${rec.image_url}"
+                  src="${rec.thumbnail}"
                   alt="Teriyaki Chicken Casserole"
                   loading="lazy"
                 />
@@ -51,10 +63,10 @@ function displayDate(list){
                 <h3
                   class="text-base font-bold text-gray-900 mb-1 group-hover:text-emerald-600 transition-colors line-clamp-1"
                 >
-                  ${rec.publisher}
+                  ${rec.name}
                 </h3>
                 <p class="text-xs text-gray-600 mb-3 line-clamp-2">
-                   ${rec.title}
+                   ${rec.instructions}
                 </p>
                 <div class="flex items-center justify-between text-xs">
                   <span class="font-semibold text-gray-900">
