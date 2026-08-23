@@ -6,13 +6,20 @@
  */
 
 const searchBtn = document.getElementById('search-input');
+const loadingScreen = document.getElementById("loaderScreen");
+const loadingOverAll = document.getElementById("app-loading-overlay");
+
+
 let debounceTimer ;
  searchBtn.addEventListener('input', function(){
+  
+
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {
      const searchTerm = document.getElementById("search-input").value
   getRacipe(searchTerm)
   },400);
+  
  })
 
 
@@ -20,15 +27,24 @@ getRacipe()
 
 
 async function getRacipe(recipe ="chicken") {
+  overallScreen(true)
+  showhide(true)
+  try{
     const response = await fetch(
         `https://nutriplan-api.vercel.app/api/meals/search?q=${recipe}&page=1&limit=25`,
     );
     const resDate = await response.json();
     console.log(resDate);
     displayDate(resDate.results)
+  }catch(err){
+    console.log(`Error Happend : ${err}`)
+  }finally{
+showhide(false)
+overallScreen(false)
+  }
     
 }
-console.log(resDate)
+
 function displayDate(list){
     console.log("display", list);
     let htmlMarkUp ;
@@ -50,12 +66,14 @@ function displayDate(list){
                   <span
                     class="px-2 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold rounded-full text-gray-700"
                   >
-                    Chicken
+                   <i class="fa-solid fa-tag text-emerald-600 mr-1"></i>
+                    ${rec.category}
                   </span>
                   <span
                     class="px-2 py-1 bg-emerald-500 text-xs font-semibold rounded-full text-white"
                   >
-                    Japanese
+                   <i class="fa-solid fa-globe text-blue-500 mr-1"></i>
+                    ${rec.area}
                   </span>
                 </div>
               </div>
@@ -71,11 +89,11 @@ function displayDate(list){
                 <div class="flex items-center justify-between text-xs">
                   <span class="font-semibold text-gray-900">
                     <i class="fa-solid fa-utensils text-emerald-600 mr-1"></i>
-                    Chicken
+                    ${rec.category}
                   </span>
                   <span class="font-semibold text-gray-500">
                     <i class="fa-solid fa-globe text-blue-500 mr-1"></i>
-                    Japanese
+                    ${rec.area}
                   </span>
                 </div>
               </div>
@@ -83,6 +101,33 @@ function displayDate(list){
           `
         }).join('')
         console.log(htmlMarkUp);
-        document.getElementById('recipes-grid').innerHTML = htmlMarkUp;
-    }
+      }else{
+        htmlMarkUp = `<div class="">
+<div class="flex items-center justify-center mb-4 flex-col">
+  <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+    <i class="fa-solid fa-magnifying-glass text-2x1 text-gray-400"></i>
+  </div>
+  <p class="text-gray-500 text-lg">No recipes found. Try a different search term.</p>
+
+</div>
+</div>`
+      }
+      document.getElementById('recipes-grid').innerHTML = htmlMarkUp;
+}
+
+function showhide(isShow){
+  if(isShow){
+    loadingScreen.style.display = 'flex'
+  }else{
+    loadingScreen.style.display = 'none'
+  }
+}
+
+function overallScreen(show){
+  if(show){
+    loadingOverAll.style.display = 'flex'
+  }else{
+    loadingOverAll.style.display = 'none'
+    
+  }
 }
