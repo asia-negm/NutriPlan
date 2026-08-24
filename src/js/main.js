@@ -8,6 +8,7 @@
 const searchBtn = document.getElementById('search-input');
 const loadingScreen = document.getElementById("loaderScreen");
 const loadingOverAll = document.getElementById("app-loading-overlay");
+const recipePanel = document.querySelector("#meal-details")
 
 
 let debounceTimer ;
@@ -52,12 +53,12 @@ function displayDate(list){
         htmlMarkUp = list.map(function(rec){
           return  ` 
             <div
-              class="recipe-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
+              class=" recipe-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
               data-meal-id="52772"
             >
               <div class="relative h-48 overflow-hidden">
-                <img
-                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                <img 
+                  class="recipe-thumb  w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   src="${rec.thumbnail}"
                   alt="Teriyaki Chicken Casserole"
                   loading="lazy"
@@ -130,4 +131,46 @@ function overallScreen(show){
     loadingOverAll.style.display = 'none'
     
   }
+}
+
+function showPage(pageId){
+  document.querySelectorAll(".page-section").forEach(section => {
+    section.classList.remove('show');
+  });
+  document.querySelector(pageId).classList.add('show');
+}
+
+function showPages(pageIds) {
+  document.querySelectorAll(".page-section").forEach(section => {
+    section.classList.remove('show');
+  });
+  pageIds.forEach(id => {
+    const el = document.querySelector(id);
+    if (el) el.classList.add('show');
+  });
+}
+
+document.addEventListener("click" , (e) =>{
+  if (e.target.closest(".recipe-thumb")){
+    showPage('#meal-details');
+    
+  }
+   if (e.target.closest("#back-to-meals-btn")){
+   showPages([
+     "#all-recipes-section",
+      "#search-filters-section",
+      "#meal-categories-section"
+   ])
+   }
+})
+
+
+
+function getRecipeDetails(){
+
+  showRecipePanel()
+}
+
+function showRecipePanel(){
+
 }

@@ -164,7 +164,7 @@
 
       <section
         id="search-filters-section"
-        class="px-8 py-6 bg-white border-b border-gray-200"
+        class="px-8 py-6 bg-white border-b border-gray-200 page-section show"
       >
         <div class="mx-auto">
           <div class="mb-6">
@@ -196,7 +196,7 @@
         </div>
       </section>
 
-      <section id="meal-categories-section" class="px-8 py-6 bg-white">
+      <section id="meal-categories-section" class="px-8 py-6 bg-white page-section show">
         <div>
           <div class="flex items-center justify-between mb-4">
             <div>
@@ -235,7 +235,7 @@
         </div>
       </section>
 
-      <section id="all-recipes-section" class="px-8 py-8 bg-gray-50">
+      <section id="all-recipes-section" class="px-8 py-8 bg-gray-50 page-section show">
         <div>
           <div class="flex items-center justify-between mb-6">
             <div>
@@ -318,7 +318,7 @@
         </div>
       </section>
 
-      <section id="meal-details" class="px-8 py-8 bg-gray-50">
+      <section id="meal-details" class="px-8 py-8 bg-gray-50 page-section">
         <div class="max-w-7xl mx-auto">
           <!-- Back Button -->
           <button
@@ -386,6 +386,62 @@
               <i class="fa-solid fa-clipboard-list"></i>
               <span>Log This Meal</span>
             </button>
+          </div>
+
+          <div class="fixed inset-0 bg-back/50 flex items-center justify-center z-50" id="log-meal-modal">
+            <div class="bg-white rounded-2xl p-6 max-w-md w-full mx-4">
+              <div class="flex items-center gap-4 mb-6">
+                <img class="w-16 h-16 rounded-x1 object-cover" src="src/images/favicon.png" alt="">
+                <div>
+                  <h3 class="text-xl font-bold text-gray-900">Log This Meal</h3>
+                  <p class="text-gray-500 text-sm">FLAN</p>
+                </div>
+              </div>
+            <div class="mb-6">
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Number of Servings</label>
+              <div class="flex items-center gap-3">
+                <button id="decreac-servings" class="w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center  justify-center">
+                  <i class="text-gray-600 fa-solid fa-minus" ></i>
+                </button>
+                <input type="number"  id="meal-servings" value="1" min="0.5" max="10" step="0.5" class="w-20 text-center text-xl font-bold border-2 border-gray-200 rounded-lg py-2">
+                <button id="increase-servings" class="w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center  justify-center">
+                  <i class="fa-solid fa-plus text-gray-600"></i>
+                </button>
+
+              </div>
+            </div>
+            <div class="bg-emerald-50 rounded-xl p-4 mb-6">
+              <p class="text-sm text-gray-600 mb-2">Estimated nutrition per serving:</p>
+              <div class="grid grid-cols-4 gap-2 text-center">
+                <div>
+                  <p class="text-lg font-bold text-emerald-600" id="modal-calories">175</p>
+                  <p class="text-xs text-gray-500">Calories</p>
+                </div>
+                <div>
+                  <p class="text-lg font-bold text-blue-600" id="modal-protein">0g</p>
+                  <p class="text-xs text-gray-500">Protein</p>
+                </div>
+                <div>
+                  <p class="text-lg font-bold text-amber-600" id="modal-carbs">0g</p>
+                  <p class="text-xs text-gray-500">Carbs</p>
+                </div>
+                <div>
+                  <p class="text-lg font-bold text-purple-600" id="modal-fat">0g</p>
+                  <p class="text-xs text-gray-500">Fat</p>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="flex gap-3">
+              <button id="cancel-log-meal" class="flex-1 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-all">Cancel</button>
+              <button id="confirm-log-meal" class="flex-1 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all">
+                <i class="fa-solid fa-clipboard-list"></i>
+                Log Meal
+              </button>
+            </div>
+            </div>
+
           </div>
 
           <!-- Main Content Grid -->
@@ -755,7 +811,7 @@
       </section>
 
       <!-- ============= PRODUCT SCANNER SECTION ============= -->
-      <section id="products-section" class="px-8 py-8 bg-gray-50 min-h-screen">
+      <section id="products-section" class="px-8 py-8 bg-gray-50 min-h-screen page-section">
         <div class="max-w-7xl mx-auto">
           <!-- Search Header -->
           <div
@@ -991,7 +1047,7 @@
       </section>
 
       <!-- ============= FOOD LOG SECTION ============= -->
-      <section id="foodlog-section" class="px-8 py-8 bg-gray-50 min-h-screen">
+      <section id="foodlog-section" class="px-8 py-8 bg-gray-50 min-h-screen page-section">
         <div class="max-w-7xl mx-auto">
           <!-- Page Header -->
           <div

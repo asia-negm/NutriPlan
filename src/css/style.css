@@ -25,3 +25,11 @@
     transform: rotate(360deg);
   }
 }
+
+.page-section{
+  display: none;
+}
+
+.page-section.show{
+  display: block;
+}
