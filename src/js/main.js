@@ -15,6 +15,10 @@ const confirmBtm = document.getElementById('confirm-log-meal');
 const productBtn = document.getElementById('products-section');
 
 
+
+
+
+
 canselBtn.addEventListener('click',function(){
   logRecipe.classList.remove('show-card')
 })
@@ -71,7 +75,7 @@ function displayDate(list){
           return  ` 
             <div
               class=" recipe-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
-              data-meal-id="52772"
+              data-meal-id="${rec.id}"
             >
               <div class="relative h-48 overflow-hidden">
                 <img 
@@ -168,8 +172,12 @@ function showPages(pageIds) {
 }
 
 document.addEventListener("click" , (e) =>{
-  if (e.target.closest(".recipe-thumb")){
+  if (e.target.closest(".recipe-card")){
+    const card = e.target.closest('.recipe-card');
+const mealId = card.dataset.mealId;
+console.log(mealId);
     showPage('#meal-details');
+    getMealDetails(mealId);
     
   }
  else if (e.target.closest("#product-btn")){
@@ -206,3 +214,24 @@ document.addEventListener("click" , (e) =>{
 })
 
 
+async function getMealDetails(id) {
+  overallScreen(true)
+  showhide(true)
+  try{
+    const response = await fetch(
+        `https://nutriplan-api.vercel.app/api/meals/${id}`,
+    );
+    const resDate = await response.json();
+    console.log(resDate);
+    document.getElementById('imgMeal').src = resDate.result.thumbnail;
+    document.getElementById('nameMeal').textContent = resDate.result.name;
+    document.getElementById('categoryMeal').textContent = resDate.result.category;
+    document.getElementById('areaMeal').textContent = resDate.result.area;
+  }catch(err){
+    console.log(`Error Happend : ${err}`)
+  }finally{
+showhide(false)
+overallScreen(false)
+  }
+    
+}
