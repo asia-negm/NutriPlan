@@ -12,6 +12,7 @@ const recipePanel = document.querySelector("#meal-details");
 const logRecipe = document.querySelector("#log-meal-modal");
 const canselBtn =document.getElementById('cancel-log-meal');
 const confirmBtm = document.getElementById('confirm-log-meal'); 
+const productBtn = document.getElementById('products-section');
 
 
 canselBtn.addEventListener('click',function(){
@@ -171,13 +172,19 @@ document.addEventListener("click" , (e) =>{
     showPage('#meal-details');
     
   }
-   if (e.target.closest("#back-to-meals-btn")){
-   showPages([
+ else if (e.target.closest("#product-btn")){
+    showPage('#products-section');
+  }
+  else if (e.target.closest("#food-btn")){
+    showPage('#foodlog-section');
+  }
+  else if (e.target.closest("#meals-btn") || e.target.closest("#back-to-meals-btn")){
+      showPages([
      "#all-recipes-section",
       "#search-filters-section",
       "#meal-categories-section"
    ])
-   }
+  }
 })
 
 
