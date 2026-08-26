@@ -214,6 +214,8 @@ document.addEventListener("click" , (e) =>{
 })
 
 
+
+
 async function getMealDetails(id) {
   overallScreen(true)
   showhide(true)
@@ -227,6 +229,82 @@ async function getMealDetails(id) {
     document.getElementById('nameMeal').textContent = resDate.result.name;
     document.getElementById('categoryMeal').textContent = resDate.result.category;
     document.getElementById('areaMeal').textContent = resDate.result.area;
+    
+    const instructionsHtml = resDate.result.instructionsContainer.map((step , index){
+      return`
+         <div id="instructionsContainer" class="bg-white rounded-2xl shadow-lg p-6">
+                <h2
+                  class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
+                >
+                  <i class="fa-solid fa-shoe-prints text-emerald-600"></i>
+                  Instructions
+                </h2>
+                <div class="space-y-4">
+                  <div
+                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
+                    >
+                       ${index + 1}
+                    </div>
+                    <p class="text-gray-700 leading-relaxed pt-2">
+                     ${step}
+                    </p>
+                  </div>
+                  <div
+                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
+                    >
+                      ${index + 2}
+                    </div>
+                    <p class="text-gray-700 leading-relaxed pt-2">
+                  ${step}
+                    </p>
+                  </div>
+                  <div
+                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
+                    >
+                       ${index + 3}
+                    </div>
+                    <p class="text-gray-700 leading-relaxed pt-2">
+                    ${step}
+                    </p>
+                  </div>
+                  <div
+                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
+                    >
+                      ${index + 4}
+                    </div>
+                    <p class="text-gray-700 leading-relaxed pt-2">
+                      ${step}
+                    </p>
+                  </div>
+                  <div
+                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
+                    >
+                       ${index + 5}
+                    </div>
+                    <p class="text-gray-700 leading-relaxed pt-2">
+                   ${step}
+                    </p>
+                  </div>
+                </div>
+              </div>`
+    })
+
+    const IngredientsHtml = resDate.result.IngredientsContainer
   }catch(err){
     console.log(`Error Happend : ${err}`)
   }finally{
