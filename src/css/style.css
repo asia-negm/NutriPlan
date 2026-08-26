@@ -33,3 +33,6 @@
 .page-section.show{
   display: block;
 }
+.show-card{
+  display: flex;
+}

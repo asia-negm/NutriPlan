@@ -8,8 +8,24 @@
 const searchBtn = document.getElementById('search-input');
 const loadingScreen = document.getElementById("loaderScreen");
 const loadingOverAll = document.getElementById("app-loading-overlay");
-const recipePanel = document.querySelector("#meal-details")
+const recipePanel = document.querySelector("#meal-details");
+const logRecipe = document.querySelector("#log-meal-modal");
+const canselBtn =document.getElementById('cancel-log-meal');
+const confirmBtm = document.getElementById('confirm-log-meal'); 
 
+
+canselBtn.addEventListener('click',function(){
+  logRecipe.classList.remove('show-card')
+})
+
+confirmBtm.addEventListener('click',function(){
+  logRecipe.classList.remove('show-card')
+  Swal.fire({
+  title: "Meal Logged!",
+  icon: "success",
+  draggable: true,
+});
+});
 
 let debounceTimer ;
  searchBtn.addEventListener('input', function(){
@@ -167,10 +183,19 @@ document.addEventListener("click" , (e) =>{
 
 
 function getRecipeDetails(){
+  
 
   showRecipePanel()
 }
 
 function showRecipePanel(){
-
+logRecipe.classList.add('show-card')
 }
+
+document.addEventListener("click" , (e) =>{
+  if (e.target.closest("#log-meal-btn")){
+    showRecipePanel('#log-meal-modal');
+  }
+})
+
+
