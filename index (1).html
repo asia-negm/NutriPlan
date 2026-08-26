@@ -450,218 +450,30 @@
             <!-- Left Column - Ingredients & Instructions -->
             <div class="lg:col-span-2 space-y-8">
               <!-- Ingredients -->
-              <div id="IngredientsContainer" class="bg-white rounded-2xl shadow-lg p-6">
+              <div  class="bg-white rounded-2xl shadow-lg p-6">
                 <h2
                   class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
                 >
                   <i class="fa-solid fa-list-check text-emerald-600"></i>
                   Ingredients
-                  <span class="text-sm font-normal text-gray-500 ml-auto"
+                  <span id="ingredientsCount"  class="text-sm font-normal text-gray-500 ml-auto"
                     >9 items</span
                   >
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div
-                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300"
-                    />
-                    <span class="text-gray-700">
-                      <span class="font-medium text-gray-900">3/4 cup</span> soy
-                      sauce
-                    </span>
-                  </div>
-                  <div
-                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300"
-                    />
-                    <span class="text-gray-700">
-                      <span class="font-medium text-gray-900">1/2 cup</span>
-                      water
-                    </span>
-                  </div>
-                  <div
-                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300"
-                    />
-                    <span class="text-gray-700">
-                      <span class="font-medium text-gray-900">1/4 cup</span>
-                      brown sugar
-                    </span>
-                  </div>
-                  <div
-                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300"
-                    />
-                    <span class="text-gray-700">
-                      <span class="font-medium text-gray-900"
-                        >1/2 teaspoon</span
-                      >
-                      ground ginger
-                    </span>
-                  </div>
-                  <div
-                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300"
-                    />
-                    <span class="text-gray-700">
-                      <span class="font-medium text-gray-900"
-                        >1/2 teaspoon</span
-                      >
-                      minced garlic
-                    </span>
-                  </div>
-                  <div
-                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300"
-                    />
-                    <span class="text-gray-700">
-                      <span class="font-medium text-gray-900"
-                        >4 Tablespoons</span
-                      >
-                      cornstarch
-                    </span>
-                  </div>
-                  <div
-                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300"
-                    />
-                    <span class="text-gray-700">
-                      <span class="font-medium text-gray-900">2</span> chicken
-                      breasts
-                    </span>
-                  </div>
-                  <div
-                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300"
-                    />
-                    <span class="text-gray-700">
-                      <span class="font-medium text-gray-900">1 bag</span>
-                      stir-fry vegetables
-                    </span>
-                  </div>
-                  <div
-                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300"
-                    />
-                    <span class="text-gray-700">
-                      <span class="font-medium text-gray-900">3 cups</span>
-                      brown rice
-                    </span>
-                  </div>
+                <div id="ingredientsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
                 </div>
               </div>
 
               <!-- Instructions -->
-              <div id="instructionsContainer" class="bg-white rounded-2xl shadow-lg p-6">
+              <div  class="bg-white rounded-2xl shadow-lg p-6">
                 <h2
                   class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
                 >
                   <i class="fa-solid fa-shoe-prints text-emerald-600"></i>
                   Instructions
                 </h2>
-                <div class="space-y-4">
-                  <div
-                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
-                  >
-                    <div
-                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
-                    >
-                      1
-                    </div>
-                    <p class="text-gray-700 leading-relaxed pt-2">
-                      Preheat oven to 350° F. Spray a 9x13-inch baking pan with
-                      non-stick spray.
-                    </p>
-                  </div>
-                  <div
-                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
-                  >
-                    <div
-                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
-                    >
-                      2
-                    </div>
-                    <p class="text-gray-700 leading-relaxed pt-2">
-                      Combine soy sauce, ½ cup water, brown sugar, ginger and
-                      garlic in a small saucepan and cover. Bring to a boil over
-                      medium heat. Remove lid and cook for one minute once
-                      boiling.
-                    </p>
-                  </div>
-                  <div
-                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
-                  >
-                    <div
-                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
-                    >
-                      3
-                    </div>
-                    <p class="text-gray-700 leading-relaxed pt-2">
-                      Meanwhile, stir together the cornstarch and 2 tablespoons
-                      of water in a separate dish until smooth. Once sauce is
-                      boiling, add mixture to the saucepan and stir to combine.
-                      Cook until the sauce starts to thicken then remove from
-                      heat.
-                    </p>
-                  </div>
-                  <div
-                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
-                  >
-                    <div
-                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
-                    >
-                      4
-                    </div>
-                    <p class="text-gray-700 leading-relaxed pt-2">
-                      Place the chicken breasts in the prepared pan. Pour one
-                      cup of the sauce over top of chicken. Place chicken in
-                      oven and bake 35 minutes or until cooked through. Remove
-                      from oven and shred chicken in the pan using two forks.
-                    </p>
-                  </div>
-                  <div
-                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
-                  >
-                    <div
-                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
-                    >
-                      5
-                    </div>
-                    <p class="text-gray-700 leading-relaxed pt-2">
-                      *Meanwhile, steam the vegetables according to package
-                      directions and stir together with the cooked brown rice.
-                      Add the remaining sauce to the mixture and stir to
-                      combine. Serve the chicken over the rice and veggie
-                      mixture.
-                    </p>
-                  </div>
+                <div id="instructionsContainer" class="space-y-4">
                 </div>
               </div>
 

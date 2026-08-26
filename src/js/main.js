@@ -229,82 +229,36 @@ async function getMealDetails(id) {
     document.getElementById('nameMeal').textContent = resDate.result.name;
     document.getElementById('categoryMeal').textContent = resDate.result.category;
     document.getElementById('areaMeal').textContent = resDate.result.area;
-    
-    const instructionsHtml = resDate.result.instructionsContainer.map((step , index){
+    document.getElementById('ingredientsCount').textContent = resDate.result.ingredients.length + ' items';
+
+    const instructionsHtml = resDate.result.instructions.map((step , index) =>{
       return`
-         <div id="instructionsContainer" class="bg-white rounded-2xl shadow-lg p-6">
-                <h2
-                  class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2"
-                >
-                  <i class="fa-solid fa-shoe-prints text-emerald-600"></i>
-                  Instructions
-                </h2>
-                <div class="space-y-4">
-                  <div
-                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
-                  >
-                    <div
-                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
-                    >
+                  <div class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                    <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0">
+
                        ${index + 1}
                     </div>
                     <p class="text-gray-700 leading-relaxed pt-2">
                      ${step}
                     </p>
-                  </div>
-                  <div
-                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
+                  </div>`;
+    }).join('');
+        document.getElementById('instructionsContainer').innerHTML = instructionsHtml
+ const ingredientsHtml = resDate.result.ingredients.map((item) =>{
+      return`<div
+                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors"
                   >
-                    <div
-                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
-                    >
-                      ${index + 2}
-                    </div>
-                    <p class="text-gray-700 leading-relaxed pt-2">
-                  ${step}
-                    </p>
+                    <input
+                      type="checkbox"
+                      class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300"
+                    />
+                    <span class="text-gray-700">
+                      <span class="font-medium text-gray-900">${item.measure}</span> ${item.ingredient}
+                    </span>
                   </div>
-                  <div
-                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
-                  >
-                    <div
-                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
-                    >
-                       ${index + 3}
-                    </div>
-                    <p class="text-gray-700 leading-relaxed pt-2">
-                    ${step}
-                    </p>
-                  </div>
-                  <div
-                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
-                  >
-                    <div
-                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
-                    >
-                      ${index + 4}
-                    </div>
-                    <p class="text-gray-700 leading-relaxed pt-2">
-                      ${step}
-                    </p>
-                  </div>
-                  <div
-                    class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
-                  >
-                    <div
-                      class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0"
-                    >
-                       ${index + 5}
-                    </div>
-                    <p class="text-gray-700 leading-relaxed pt-2">
-                   ${step}
-                    </p>
-                  </div>
-                </div>
-              </div>`
-    })
-
-    const IngredientsHtml = resDate.result.IngredientsContainer
+                 `
+    }).join('');
+        document.getElementById('ingredientsContainer').innerHTML = ingredientsHtml 
   }catch(err){
     console.log(`Error Happend : ${err}`)
   }finally{
