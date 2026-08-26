@@ -230,6 +230,7 @@ async function getMealDetails(id) {
     document.getElementById('categoryMeal').textContent = resDate.result.category;
     document.getElementById('areaMeal').textContent = resDate.result.area;
     document.getElementById('ingredientsCount').textContent = resDate.result.ingredients.length + ' items';
+    document.getElementById('youtubeVideo').src = `https://www.youtube.com/embed/${resDate.result.youtube.split('=')[1]}`;
 
     const instructionsHtml = resDate.result.instructions.map((step , index) =>{
       return`
@@ -267,3 +268,4 @@ overallScreen(false)
   }
     
 }
+ 
