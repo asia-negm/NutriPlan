@@ -13,6 +13,8 @@ const logRecipe = document.querySelector("#log-meal-modal");
 const canselBtn =document.getElementById('cancel-log-meal');
 const confirmBtm = document.getElementById('confirm-log-meal'); 
 const productBtn = document.getElementById('products-section');
+let currentMeal = null ;
+
 
 
 
@@ -21,9 +23,11 @@ const productBtn = document.getElementById('products-section');
 
 canselBtn.addEventListener('click',function(){
   logRecipe.classList.remove('show-card')
+  document.getElementById('meal-servings').value = 1;
 })
 
 confirmBtm.addEventListener('click',function(){
+  console.log(currentMeal);
   logRecipe.classList.remove('show-card')
   Swal.fire({
   title: "Meal Logged!",
@@ -217,14 +221,17 @@ document.addEventListener("click" , (e) =>{
 
 
 async function getMealDetails(id) {
+   
+
   overallScreen(true)
   showhide(true)
   try{
     const response = await fetch(
         `https://nutriplan-api.vercel.app/api/meals/${id}`,
     );
-    const resDate = await response.json();
+         const resDate = await response.json();
     console.log(resDate);
+  currentMeal = resDate.result;
     document.getElementById('imgMeal').src = resDate.result.thumbnail;
     document.getElementById('nameMeal').textContent = resDate.result.name;
     document.getElementById('categoryMeal').textContent = resDate.result.category;
@@ -269,3 +276,21 @@ overallScreen(false)
     
 }
  
+function updateServings(amount , min , max ){
+  const input = document.getElementById('meal-servings');
+  const currentValue = parseFloat(input.value);
+  const newValue = currentValue + amount;
+
+
+  if(newValue >= min && newValue <= max){
+    input.value = newValue
+  }
+}
+
+document.getElementById('increase-servings').addEventListener('click',function(){
+  updateServings(0.5 , 0.5, 10);
+})
+document.getElementById('decreac-servings').addEventListener('click',function(){
+  updateServings(-0.5 , 0.5, 10);
+})
+
