@@ -15,7 +15,8 @@ const confirmBtm = document.getElementById('confirm-log-meal');
 const productBtn = document.getElementById('products-section');
 let currentMeal = null ;
 
-
+const stored = localStorage.getItem('foodLog');
+console.log(stored)
 
 
 
@@ -34,6 +35,19 @@ confirmBtm.addEventListener('click',function(){
   icon: "success",
   draggable: true,
 });
+const entry= {
+  id: Date.now(),
+  mealId: currentMeal.id,
+  name: currentMeal.name,
+  thumbnail: currentMeal.thumbnail,
+  servings: document.getElementById('meal-servings').value,
+  calories:0,
+  protein:0,
+  carbs: 0,
+  fat: 0,
+  time:new Date()
+};
+console.log(entry)
 });
 
 let debounceTimer ;
@@ -231,7 +245,8 @@ async function getMealDetails(id) {
     );
          const resDate = await response.json();
     console.log(resDate);
-  currentMeal = resDate.result;
+    currentMeal = resDate.result;
+    console.log('currentMeal now :', currentMeal)
     document.getElementById('imgMeal').src = resDate.result.thumbnail;
     document.getElementById('nameMeal').textContent = resDate.result.name;
     document.getElementById('categoryMeal').textContent = resDate.result.category;
