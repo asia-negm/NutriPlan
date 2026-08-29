@@ -15,8 +15,7 @@ const confirmBtm = document.getElementById('confirm-log-meal');
 const productBtn = document.getElementById('products-section');
 let currentMeal = null ;
 
-const stored = localStorage.getItem('foodLog');
-console.log(stored)
+
 
 
 
@@ -29,12 +28,7 @@ canselBtn.addEventListener('click',function(){
 
 confirmBtm.addEventListener('click',function(){
   console.log(currentMeal);
-  logRecipe.classList.remove('show-card')
-  Swal.fire({
-  title: "Meal Logged!",
-  icon: "success",
-  draggable: true,
-});
+
 const entry= {
   id: Date.now(),
   mealId: currentMeal.id,
@@ -47,7 +41,25 @@ const entry= {
   fat: 0,
   time:new Date()
 };
-console.log(entry)
+
+const stored = localStorage.getItem('foodLog');
+let foodLogArray ;
+if(stored){
+  foodLogArray = JSON.parse(stored)
+}else{
+  foodLogArray= [];
+  
+}
+foodLogArray.push(entry);
+localStorage.setItem('foodLog' , JSON.stringify(foodLogArray));
+
+  logRecipe.classList.remove('show-card')
+  Swal.fire({
+  title: "Meal Logged!",
+  icon: "success",
+  draggable: true,
+});
+
 });
 
 let debounceTimer ;
@@ -309,3 +321,15 @@ document.getElementById('decreac-servings').addEventListener('click',function(){
   updateServings(-0.5 , 0.5, 10);
 })
 
+const stored = localStorage.getItem('foodLog');
+let foodLogArray ;
+if(stored){
+  foodLogArray = JSON.parse(stored)
+}else{
+  foodLogArray= []
+
+}
+
+
+
+console.log(foodLogArray) 
