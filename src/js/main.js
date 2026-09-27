@@ -14,7 +14,16 @@ const canselBtn =document.getElementById('cancel-log-meal');
 const confirmBtm = document.getElementById('confirm-log-meal'); 
 const productBtn = document.getElementById('products-section');
 let currentMeal = null ;
+let currentFilters = {
+    search: '',
+    category: '',
+    area: ''
+};
 
+const featuredAreas = [
+    "Afghan", "Albanian", "Algerian", "Andorran", "Angolan",
+    "Antiguan, Barbudan", "Argentine", "Armenian", "Aruban", "Australian"
+];
 
 
 
@@ -68,15 +77,16 @@ let debounceTimer ;
 
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {
-     const searchTerm = document.getElementById("search-input").value
-  getRacipe(searchTerm)
+    currentFilters.search = document.getElementById('search-input').value.trim();
+   currentFilters.category = '';
+    currentFilters.area = '';
+    applyFilters();
   },400);
   
  })
 
 
-getRacipe()
-
+init();
 
 async function getRacipe(recipe ="chicken") {
   overallScreen(true)
@@ -95,6 +105,98 @@ showhide(false)
 overallScreen(false)
   }
     
+}
+async function init() {
+  await getAreas();
+  await getRacipe();
+}
+document.getElementById('categories-grid').addEventListener('click', (e) => {
+    const card = e.target.closest('.category-card');
+    if (!card) return;
+
+    currentFilters.category = card.dataset.category;
+    currentFilters.area = '';
+    currentFilters.search = '';
+
+    // شيل الـ active من أزرار الـ area (لو موجودة)
+    document.querySelectorAll('#area-filters .filter-btn').forEach(b => {
+        b.classList.remove('active', 'bg-emerald-600', 'text-white');
+        b.classList.add('bg-gray-100', 'text-gray-700');
+    });
+
+    applyFilters();
+});
+
+async function getAreas() {
+    const response = await fetch('https://nutriplan-api.vercel.app/api/meals/areas');
+    const data = await response.json();
+    displayAreas(data.results);
+}
+
+function displayAreas(areas) {
+  const filtered = areas.filter(area => featuredAreas.includes(area.name));
+    const areaButtons = filtered.map(area => `
+        <button
+          class="filter-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-full font-medium text-sm whitespace-nowrap hover:bg-gray-200 transition-all"
+          data-area="${area.name}"
+        >
+          ${area.name}
+        </button>
+    `).join('');
+
+    document.getElementById('area-filters').innerHTML = `
+        <button
+          class="filter-btn active px-4 py-2 bg-emerald-600 text-white rounded-full font-medium text-sm whitespace-nowrap hover:bg-emerald-700 transition-all"
+          data-area=""
+        >
+          All Recipes
+        </button>
+        ${areaButtons}
+    `;
+}
+
+document.getElementById('area-filters').addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+
+     document.querySelectorAll('#area-filters .filter-btn').forEach(b => {
+        b.classList.remove('active', 'bg-emerald-600', 'text-white');
+        b.classList.add('bg-gray-100', 'text-gray-700');
+    });
+    btn.classList.add('active', 'bg-emerald-600', 'text-white');
+    btn.classList.remove('bg-gray-100', 'text-gray-700');
+
+    currentFilters.area = btn.dataset.area;
+    currentFilters.category = '';
+    currentFilters.search = '';
+    applyFilters();
+});
+
+async function applyFilters() {
+    let url = 'https://nutriplan-api.vercel.app/api/meals/';
+
+    if (currentFilters.category) {
+        url += `filter?category=${currentFilters.category}`;
+    } else if (currentFilters.area) {
+        url += `filter?area=${currentFilters.area}`;
+    } else if (currentFilters.search) {
+        url += `search?q=${currentFilters.search}&limit=25`;
+    } else {
+        url += `search?q=chicken&limit=25`;
+    }
+
+    overallScreen(true);
+    showhide(true);
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        displayDate(data.results);
+    } catch (err) {
+        console.log(`Error Happend : ${err}`);
+    } finally {
+        showhide(false);
+        overallScreen(false);
+    }
 }
 
 function displayDate(list){
@@ -215,6 +317,7 @@ console.log(mealId);
   }
   else if (e.target.closest("#food-btn")){
     showPage('#foodlog-section');
+     renderFoodLog()
   }
   else if (e.target.closest("#meals-btn") || e.target.closest("#back-to-meals-btn")){
       showPages([
@@ -329,7 +432,35 @@ if(stored){
   foodLogArray= []
 
 }
-
-
-
 console.log(foodLogArray) 
+
+function renderFoodLog(){
+const stored = localStorage.getItem('foodLog');
+let foodLogArray ;
+if (stored){
+  foodLogArray = JSON.parse(stored);
+}else{
+  foodLogArray = [];
+}
+if(foodLogArray.length === 0){
+  console.log('No Meals Loddeg today');
+}else{
+  const itemsHtml = foodLogArray.map(function(item){
+  return `<div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+      <div class="flex items-center gap-3">
+        <img src="${item.thumbnail}" class="w-12 h-12 rounded-lg object-cover" />
+        <div>
+          <p class="font-semibold text-gray-900">${item.name}</p>
+          <p class="text-sm text-gray-500">${item.servings} servings</p>
+        </div>
+      </div>
+      <div class="text-right">
+        <p class="font-bold text-emerald-600">${item.calories} kcal</p>
+      </div>
+    </div>
+  `
+}).join('');
+document.getElementById('logged-items-list').innerHTML = itemsHtml
+}
+
+}

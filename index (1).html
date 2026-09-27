@@ -181,59 +181,140 @@
             </div>
           </div>
 
-          <div class="flex items-center gap-3 overflow-x-auto pb-2">
-            <button
-              class="px-4 py-2 bg-emerald-600 text-white rounded-full font-medium text-sm whitespace-nowrap hover:bg-emerald-700 transition-all"
-            >
-              All Recipes
-            </button>
-            <button
-              class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full font-medium text-sm whitespace-nowrap hover:bg-gray-200 transition-all"
-            >
-              Egyptain
-            </button>
-          </div>
+         <div id="area-filters" class="flex items-center gap-3 overflow-x-auto pb-2">
+  <button
+    class="filter-btn active px-4 py-2 bg-emerald-600 text-white rounded-full font-medium text-sm whitespace-nowrap hover:bg-emerald-700 transition-all"
+    data-area=""
+  >
+    All Cuisines
+  </button>
+</div>
         </div>
       </section>
 
-      <section id="meal-categories-section" class="px-8 py-6 bg-white page-section show">
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h2 class="text-xl font-bold text-gray-900">
-                Browse by Meal Type
-              </h2>
-              <p class="text-xs text-gray-500 mt-0.5">
-                Find the perfect recipe for any time of day
-              </p>
-            </div>
-            <button
-              class="text-emerald-600 font-medium text-sm hover:text-emerald-700 flex items-center gap-1"
-            >
-              View All <i class="fa-solid fa-chevron-right text-xs"></i>
-            </button>
-          </div>
+     <section id="meal-categories-section" class="px-8 py-6 bg-white page-section show">
+  <div>
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h2 class="text-xl font-bold text-gray-900">Browse by Meal Type</h2>
+        <p class="text-xs text-gray-500 mt-0.5">Find the perfect recipe for any time of day</p>
+      </div>
+      <button class="text-emerald-600 font-medium text-sm hover:text-emerald-700 flex items-center gap-1">
+        View All <i class="fa-solid fa-chevron-right text-xs"></i>
+      </button>
+    </div>
 
-          <div id="categories-grid" class="grid grid-cols-6 gap-3">
-            <!-- Categories will be loaded here by JavaScript -->
-            <div
-              class="category-card bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-3 border border-emerald-200 hover:border-emerald-400 hover:shadow-md cursor-pointer transition-all group"
-              data-category="Beef"
-            >
-              <div class="flex items-center gap-2.5">
-                <div
-                  class="text-white w-9 h-9 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm"
-                >
-                  <i class="fa-solid fa-drumstick-bite"></i>
-                </div>
-                <div>
-                  <h3 class="text-sm font-bold text-gray-900">Beef</h3>
-                </div>
-              </div>
-            </div>
+    <div id="categories-grid" class="grid grid-cols-6 gap-3">
+      <div class="category-card bg-gradient-to-br from-red-50 to-rose-50 rounded-xl p-3 border border-red-200 hover:border-red-400 hover:shadow-md cursor-pointer transition-all group" data-category="Beef">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-red-400 to-rose-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-drumstick-bite text-sm text-white"></i>
           </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Beef</h3></div>
         </div>
-      </section>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-3 border border-amber-200 hover:border-amber-400 hover:shadow-md cursor-pointer transition-all group" data-category="Chicken">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-drumstick-bite text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Chicken</h3></div>
+        </div>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-3 border border-pink-200 hover:border-pink-400 hover:shadow-md cursor-pointer transition-all group" data-category="Dessert">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-pink-400 to-rose-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-cake-candles text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Dessert</h3></div>
+        </div>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-3 border border-orange-200 hover:border-orange-400 hover:shadow-md cursor-pointer transition-all group" data-category="Lamb">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-orange-400 to-amber-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-drumstick-bite text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Lamb</h3></div>
+        </div>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-slate-50 to-gray-50 rounded-xl p-3 border border-slate-200 hover:border-slate-400 hover:shadow-md cursor-pointer transition-all group" data-category="Miscellaneous">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-slate-400 to-gray-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-bowl-rice text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Miscellaneous</h3></div>
+        </div>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl p-3 border border-yellow-200 hover:border-yellow-400 hover:shadow-md cursor-pointer transition-all group" data-category="Pasta">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-bowl-food text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Pasta</h3></div>
+        </div>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-rose-50 to-red-50 rounded-xl p-3 border border-rose-200 hover:border-rose-400 hover:shadow-md cursor-pointer transition-all group" data-category="Pork">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-rose-400 to-red-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-bacon text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Pork</h3></div>
+        </div>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-cyan-50 to-blue-50 rounded-xl p-3 border border-cyan-200 hover:border-cyan-400 hover:shadow-md cursor-pointer transition-all group" data-category="Seafood">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-fish text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Seafood</h3></div>
+        </div>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-3 border border-green-200 hover:border-green-400 hover:shadow-md cursor-pointer transition-all group" data-category="Side">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-plate-wheat text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Side</h3></div>
+        </div>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-3 border border-teal-200 hover:border-teal-400 hover:shadow-md cursor-pointer transition-all group" data-category="Starter">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-utensils text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Starter</h3></div>
+        </div>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl p-3 border border-emerald-200 hover:border-emerald-400 hover:shadow-md cursor-pointer transition-all group" data-category="Vegan">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-leaf text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Vegan</h3></div>
+        </div>
+      </div>
+
+      <div class="category-card bg-gradient-to-br from-lime-50 to-green-50 rounded-xl p-3 border border-lime-200 hover:border-lime-400 hover:shadow-md cursor-pointer transition-all group" data-category="Vegetarian">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 bg-gradient-to-br from-lime-400 to-green-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+            <i class="fa-solid fa-seedling text-sm text-white"></i>
+          </div>
+          <div><h3 class="text-sm font-bold text-gray-900">Vegetarian</h3></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       <section id="all-recipes-section" class="px-8 py-8 bg-gray-50 page-section show">
         <div>
@@ -906,10 +987,10 @@
                   <span class="text-sm font-semibold text-gray-700"
                     >Calories</span
                   >
-                  <span class="text-sm text-gray-500">0 / 2000 kcal</span>
+                  <span id="kcal" class="text-sm text-gray-500">0 / 2000 kcal</span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2.5">
-                  <div
+                  <div id="kcalBtn"
                     class="bg-emerald-500 h-2.5 rounded-full"
                     style="width: 0%"
                   ></div>
@@ -918,13 +999,13 @@
               <!-- Protein Progress -->
               <div class="bg-blue-50 rounded-xl p-4">
                 <div class="flex items-center justify-between mb-2">
-                  <span class="text-sm font-semibold text-gray-700"
+                  <span  class="text-sm font-semibold text-gray-700"
                     >Protein</span
                   >
-                  <span class="text-sm text-gray-500">0 / 50 g</span>
+                  <span id="protein" class="text-sm text-gray-500">0 / 50 g</span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2.5">
-                  <div
+                  <div id="proteinBtn"
                     class="bg-blue-500 h-2.5 rounded-full"
                     style="width: 0%"
                   ></div>
@@ -934,10 +1015,10 @@
               <div class="bg-amber-50 rounded-xl p-4">
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-sm font-semibold text-gray-700">Carbs</span>
-                  <span class="text-sm text-gray-500">0 / 250 g</span>
+                  <span id="carbs" class="text-sm text-gray-500">0 / 250 g</span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2.5">
-                  <div
+                  <div id="carbsBtn"
                     class="bg-amber-500 h-2.5 rounded-full"
                     style="width: 0%"
                   ></div>
@@ -947,10 +1028,10 @@
               <div class="bg-purple-50 rounded-xl p-4">
                 <div class="flex items-center justify-between mb-2">
                   <span class="text-sm font-semibold text-gray-700">Fat</span>
-                  <span class="text-sm text-gray-500">0 / 65 g</span>
+                  <span id="fat" class="text-sm text-gray-500">0 / 65 g</span>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2.5">
-                  <div
+                  <div id="fatBtn"
                     class="bg-purple-500 h-2.5 rounded-full"
                     style="width: 0%"
                   ></div>
