@@ -367,7 +367,6 @@ async function getMealDetails(id) {
         `https://nutriplan-api.vercel.app/api/meals/${id}`,
     );
          const resDate = await response.json();
-    console.log(resDate);
     currentMeal = resDate.result;
     console.log('currentMeal now :', currentMeal)
     document.getElementById('imgMeal').src = resDate.result.thumbnail;
@@ -405,14 +404,14 @@ async function getMealDetails(id) {
                  `
     }).join('');
         document.getElementById('ingredientsContainer').innerHTML = ingredientsHtml 
+            renderNutritionFacts(resDate.result.category, resDate.result.ingredients.length, 1);
+
   }catch(err){
     console.log(`Error Happend : ${err}`)
   }finally{
 showhide(false)
 overallScreen(false)
   }
-      renderNutritionFacts(resDate.result.category, resDate.result.ingredients.length, 1);
-
 }
  
 function updateServings(amount , min , max ){
@@ -590,96 +589,178 @@ function estimateNutrition(category, ingredientsCount, servings = 1) {
     fat:      Math.round(base.fat      * factor),
   };
 }
-function renderNutritionFacts(category, ingredientsCount, quantity = 1) {
-    const perServing = estimateNutrition(category, ingredientsCount, 1); // أساس ثابت للوجبة الواحدة
-    const total = {
-        calories: perServing.calories * quantity,
-        protein:  perServing.protein  * quantity,
-        carbs:    perServing.carbs    * quantity,
-        fat:      perServing.fat      * quantity,
+let currentProductFilters = { search: '', grade: '' };
+
+document.getElementById('search-product-btn').addEventListener('click', () => {
+    currentProductFilters.search = document.getElementById('product-search-input').value.trim();
+    applyProductFilters();
+});
+
+document.getElementById('product-search-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        currentProductFilters.search = document.getElementById('product-search-input').value.trim();
+        applyProductFilters();
+    }
+});
+
+document.querySelectorAll('.nutri-score-filter').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.nutri-score-filter').forEach(b => {
+            b.classList.remove('bg-emerald-600', 'text-white');
+        });
+        btn.classList.add('bg-emerald-600', 'text-white');
+        currentProductFilters.grade = btn.dataset.grade;
+        applyProductFilters();
+    });
+});
+
+document.getElementById('product-categories').addEventListener('click', (e) => {
+    const btn = e.target.closest('.product-category-btn');
+    if (!btn) return;
+    const categoryName = btn.textContent.trim();
+    document.getElementById('product-search-input').value = categoryName;
+    currentProductFilters.search = categoryName;
+    applyProductFilters();
+});
+
+async function applyProductFilters() {
+    if (!currentProductFilters.search) {
+        document.getElementById('products-count').textContent = 'Search for products to see results';
+        document.getElementById('products-grid').innerHTML = '';
+        return;
+    }
+
+    document.getElementById('products-count').textContent = 'Searching...';
+    try {
+        const response = await fetch(`https://nutriplan-api.vercel.app/api/products/search?q=${currentProductFilters.search}&limit=24`);
+        const data = await response.json();
+        let results = data.results;
+
+        if (currentProductFilters.grade) {
+            results = results.filter(p => p.nutritionGrade === currentProductFilters.grade);
+        }
+
+        displayProducts(results);
+        document.getElementById('products-count').textContent = `${results.length} products found`;
+    } catch (err) {
+        console.log(`Error: ${err}`);
+        document.getElementById('products-count').textContent = 'Error loading products';
+    }
+}
+
+function displayProducts(list) {
+    if (list.length === 0) {
+        document.getElementById('products-grid').innerHTML = `
+            <p class="text-gray-500 col-span-full text-center py-8">No products found. Try a different search term.</p>`;
+        return;
+    }
+
+    const gradeColors = {
+        a: 'bg-green-500', b: 'bg-lime-500', c: 'bg-yellow-500',
+        d: 'bg-orange-500', e: 'bg-red-500', unknown: 'bg-gray-400'
     };
 
-    // تقدير تقريبي إضافي للفايبر والسكر (نسبة من الكارب)
-    const fiber = Math.round(perServing.carbs * 0.08);
-    const sugar = Math.round(perServing.carbs * 0.25);
+    document.getElementById('products-grid').innerHTML = list.map(p => {
+        const n = p.nutrients;
+        const gradeColor = gradeColors[p.nutritionGrade] || gradeColors.unknown;
+        const gradeLabel = p.nutritionGrade === 'unknown' ? 'N/A' : p.nutritionGrade.toUpperCase();
+        const image = p.image || 'https://via.placeholder.com/300x200?text=No+Image';
 
-    // نسب الأشرطة، بناءً على نفس الأهداف اليومية المستخدمة في Food Log
-    const pct = {
-        protein: Math.min((perServing.protein / DAILY_TARGETS.protein) * 100, 100),
-        carbs:   Math.min((perServing.carbs   / DAILY_TARGETS.carbs)   * 100, 100),
-        fat:     Math.min((perServing.fat     / DAILY_TARGETS.fat)     * 100, 100),
-        fiber:   Math.min((fiber / 30) * 100, 100),
-        sugar:   Math.min((sugar / 50) * 100, 100),
+        return `
+        <div class="product-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group" data-barcode="${p.barcode}">
+          <div class="relative h-40 bg-gray-100 flex items-center justify-center overflow-hidden">
+            <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300" src="${image}" alt="${p.name}" loading="lazy" />
+            <div class="absolute top-2 left-2 ${gradeColor} text-white text-xs font-bold px-2 py-1 rounded uppercase">
+              Nutri-Score ${gradeLabel}
+            </div>
+            ${p.novaGroup ? `<div class="absolute top-2 right-2 bg-lime-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center" title="NOVA ${p.novaGroup}">${p.novaGroup}</div>` : ''}
+          </div>
+          <div class="p-4">
+            <p class="text-xs text-emerald-600 font-semibold mb-1 truncate">${p.brand || 'Unknown Brand'}</p>
+            <h3 class="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">${p.name}</h3>
+            <div class="flex items-center gap-3 text-xs text-gray-500 mb-3">
+              <span><i class="fa-solid fa-fire mr-1"></i>${Math.round(n.calories)} kcal/100g</span>
+            </div>
+            <div class="grid grid-cols-4 gap-1 text-center mb-3">
+              <div class="bg-emerald-50 rounded p-1.5">
+                <p class="text-xs font-bold text-emerald-700">${n.protein.toFixed(1)}g</p>
+                <p class="text-[10px] text-gray-500">Protein</p>
+              </div>
+              <div class="bg-blue-50 rounded p-1.5">
+                <p class="text-xs font-bold text-blue-700">${n.carbs.toFixed(1)}g</p>
+                <p class="text-[10px] text-gray-500">Carbs</p>
+              </div>
+              <div class="bg-purple-50 rounded p-1.5">
+                <p class="text-xs font-bold text-purple-700">${n.fat.toFixed(1)}g</p>
+                <p class="text-[10px] text-gray-500">Fat</p>
+              </div>
+              <div class="bg-orange-50 rounded p-1.5">
+                <p class="text-xs font-bold text-orange-700">${n.sugar.toFixed(1)}g</p>
+                <p class="text-[10px] text-gray-500">Sugar</p>
+              </div>
+            </div>
+            <button class="log-product-btn w-full py-2 bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 transition-all"
+              data-name="${p.name}" data-image="${image}"
+              data-calories="${n.calories}" data-protein="${n.protein}" data-carbs="${n.carbs}" data-fat="${n.fat}">
+              <i class="fa-solid fa-plus mr-1"></i>Add to Log
+            </button>
+          </div>
+        </div>`;
+    }).join('');
+}
+
+document.getElementById('products-grid').addEventListener('click', (e) => {
+    const btn = e.target.closest('.log-product-btn');
+    if (!btn) return;
+
+    const entry = {
+        id: Date.now(),
+        mealId: null,
+        name: btn.dataset.name,
+        thumbnail: btn.dataset.image,
+        servings: '100g',
+        calories: Math.round(Number(btn.dataset.calories)),
+        protein: Math.round(Number(btn.dataset.protein)),
+        carbs: Math.round(Number(btn.dataset.carbs)),
+        fat: Math.round(Number(btn.dataset.fat)),
+        time: new Date()
     };
 
-  }
-  document.getElementById('nutrition-facts-container').innerHTML = `
-      <p class="text-sm text-gray-500 mb-4">Per serving (estimated)</p>
+    const foodLogArray = getFoodLogArray();
+    foodLogArray.push(entry);
+    saveFoodLogArray(foodLogArray);
 
-      <div class="text-center py-4 mb-4 bg-linear-to-br from-emerald-50 to-teal-50 rounded-xl">
-        <p class="text-sm text-gray-600">Calories per serving</p>
-        <p class="text-4xl font-bold text-emerald-600">${perServing.calories}</p>
-        <p class="text-xs text-gray-500 mt-1">Total (${quantity} serving${quantity > 1 ? 's' : ''}): ${total.calories} cal</p>
-      </div>
+    Swal.fire({ title: "Product Logged!", icon: "success", timer: 1200, showConfirmButton: false });
+});
 
-      <div class="space-y-4">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-            <span class="text-gray-700">Protein</span>
-          </div>
-          <span class="font-bold text-gray-900">${perServing.protein}g</span>
-        </div>
-        <div class="w-full bg-gray-100 rounded-full h-2">
-          <div class="bg-emerald-500 h-2 rounded-full" style="width: ${pct.protein}%"></div>
-        </div>
+document.getElementById('lookup-barcode-btn').addEventListener('click', async () => {
+    const barcode = document.getElementById('barcode-input').value.trim();
+    if (!barcode) return;
 
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <div class="w-3 h-3 rounded-full bg-blue-500"></div>
-            <span class="text-gray-700">Carbs</span>
-          </div>
-          <span class="font-bold text-gray-900">${perServing.carbs}g</span>
-        </div>
-        <div class="w-full bg-gray-100 rounded-full h-2">
-          <div class="bg-blue-500 h-2 rounded-full" style="width: ${pct.carbs}%"></div>
-        </div>
+    document.getElementById('products-count').textContent = 'Looking up barcode...';
+    try {
+        const response = await fetch(`https://nutriplan-api.vercel.app/api/products/barcode/${barcode}`);
+        const data = await response.json();
 
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <div class="w-3 h-3 rounded-full bg-purple-500"></div>
-            <span class="text-gray-700">Fat</span>
-          </div>
-          <span class="font-bold text-gray-900">${perServing.fat}g</span>
-        </div>
-        <div class="w-full bg-gray-100 rounded-full h-2">
-          <div class="bg-purple-500 h-2 rounded-full" style="width: ${pct.fat}%"></div>
-        </div>
+        if (!data.result) {
+            document.getElementById('products-grid').innerHTML = `
+                <p class="text-gray-500 col-span-full text-center py-8">Product not found for this barcode.</p>`;
+            document.getElementById('products-count').textContent = '0 products found';
+            return;
+        }
 
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <div class="w-3 h-3 rounded-full bg-orange-500"></div>
-            <span class="text-gray-700">Fiber</span>
-          </div>
-          <span class="font-bold text-gray-900">${fiber}g</span>
-        </div>
-        <div class="w-full bg-gray-100 rounded-full h-2">
-          <div class="bg-orange-500 h-2 rounded-full" style="width: ${pct.fiber}%"></div>
-        </div>
+        displayProducts([data.result]);
+        document.getElementById('products-count').textContent = '1 product found';
+    } catch (err) {
+        console.log(`Error: ${err}`);
+        document.getElementById('products-grid').innerHTML = `
+            <p class="text-gray-500 col-span-full text-center py-8">Product not found for this barcode.</p>`;
+        document.getElementById('products-count').textContent = '0 products found';
+    }
+});
 
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <div class="w-3 h-3 rounded-full bg-pink-500"></div>
-            <span class="text-gray-700">Sugar</span>
-          </div>
-          <span class="font-bold text-gray-900">${sugar}g</span>
-        </div>
-        <div class="w-full bg-gray-100 rounded-full h-2">
-          <div class="bg-pink-500 h-2 rounded-full" style="width: ${pct.sugar}%"></div>
-        </div>
-      </div>
-
-      <p class="text-xs text-gray-400 mt-6 pt-4 border-t border-gray-100">
-        * Nutrition values are estimated based on recipe category and ingredient count, not a certified nutrition database.
-      </p>
-  `;
+document.getElementById('barcode-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        document.getElementById('lookup-barcode-btn').click();
+    }
+});
